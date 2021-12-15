@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { DATABASE_URL } from "./environmentVariables.js";
 
 export const connectDB = () => {
   mongoose
-    .connect(process.env.DATABASE_URL, {
+    .connect(DATABASE_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })

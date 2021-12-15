@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
-
-const config = process.env;
-
+import { JWT_SECRET } from "../config/environmentVariables.js";
 export const verifyToken = (req, res, next) => {
   let token =
     req.body.token ||
@@ -16,7 +14,7 @@ export const verifyToken = (req, res, next) => {
     return res.status(403).send("A token is required for authentication");
   }
   try {
-    const decoded = jwt.verify(token, config.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
   } catch (err) {
     return res.status(401).send("Invalid Token");

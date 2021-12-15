@@ -1,17 +1,14 @@
 import express from "express";
-import dotenv from "dotenv";
 import { connectDB } from "./config/dbConnection.js";
 // import routes
 import authRoute from "./routes/userRoute.js";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
+import { PORT } from "./config/environmentVariables.js";
 
 // initializing our Express application here.
 const app = express();
-
-// configure dotEnv
-dotenv.config();
 
 // database connection
 connectDB();
@@ -28,7 +25,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 // define port number
-const port = process.env.PORT;
+const port = PORT;
 
 // listening port
 app.listen(port, () => {

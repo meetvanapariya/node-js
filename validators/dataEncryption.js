@@ -1,7 +1,5 @@
 import CryptoJS from "crypto-js";
-import dotenv from "dotenv";
-dotenv.config();
-const CRYPTO_KEY = process.env.CRYPTO_SECRET;
+import { CRYPTO_KEY } from "../config/environmentVariables.js";
 export const encryptAES = (data) => {
   if (data) {
     return CryptoJS.AES.encrypt(data, CRYPTO_KEY).toString();
