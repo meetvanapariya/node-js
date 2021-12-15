@@ -1,13 +1,22 @@
-import Cryptr from "cryptr";
-
-const cryptr = new Cryptr("myTotalySecretKey");
-
-export const encryption = (value) => {
-  const encryptData = cryptr.encrypt(value);
-  return encryptData;
+import CryptoJS from "crypto-js";
+import dotenv from "dotenv";
+dotenv.config();
+const CRYPTO_KEY = process.env.CRYPTO_SECRET;
+export const encryptAES = (data) => {
+  if (data) {
+    return CryptoJS.AES.encrypt(data, CRYPTO_KEY).toString();
+  }
+  return data;
 };
-
-export const decryption = (value) => {
-  const decryptedData = cryptr.decrypt(value);
-  return decryptedData;
+export const decryptionAES = (data) => {
+  if (data) {
+    let bytes = CryptoJS.AES.decrypt(data, CRYPTO_KEY);
+    let decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+    if (decryptedText) {
+      return decryptedText;
+    } else {
+      return;
+    }
+  }
+  return data;
 };

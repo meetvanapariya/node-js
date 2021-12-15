@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { encryption } from "../validators/dataEncryption.js";
+import { encryptAES } from "../validators/dataEncryption.js";
 
 // const userSchema = mongoose.Schema(
 //   {
@@ -146,6 +146,10 @@ const userSchema = new mongoose.Schema(
     },
     password: { type: String },
     token: { type: String },
+    paranoid: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -157,11 +161,16 @@ userSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 
-  this.permanent_address = encryption(this.permanent_address);
+  this.permanent_address = encryptAES(this.permanent_address);
+  this.current_address = encryptAES(this.current_address);
+  this.adharaCard_no = encryptAES(this.adharaCard_no);
+  this.bank_ac = encryptAES(this.bank_ac);
+  this.phone = encryptAES(this.phone);
+  this.alternate_mobile_no = encryptAES(this.alternate_mobile_no);
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return bcrypt.compare(enteredPassword, this.password); //here i have removed await
 };
 
 export const User = mongoose.model("User", userSchema);
