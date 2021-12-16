@@ -13,7 +13,7 @@ export const decryptionAES = (data) => {
     if (decryptedText) {
       return decryptedText;
     } else {
-      return;
+      return '';
     }
   }
   return data;

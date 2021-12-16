@@ -129,23 +129,23 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+// userSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) {
+//     next();
+//   }
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
 
-  this.permanent_address = encryptAES(this.permanent_address);
-  this.current_address = encryptAES(this.current_address);
-  this.adharaCard_no = encryptAES(this.adharaCard_no);
-  this.bank_ac = encryptAES(this.bank_ac);
-  this.phone = encryptAES(this.phone);
-  this.alternate_mobile_no = encryptAES(this.alternate_mobile_no);
-});
+//   this.permanent_address = encryptAES(this.permanent_address);
+//   this.current_address = encryptAES(this.current_address);
+//   this.adharaCard_no = encryptAES(this.adharaCard_no);
+//   this.bank_ac = encryptAES(this.bank_ac);
+//   this.phone = encryptAES(this.phone);
+//   this.alternate_mobile_no = encryptAES(this.alternate_mobile_no);
+// });
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password); //here i have removed await
-};
+// userSchema.methods.matchPassword = async function (enteredPassword) {
+//   return bcrypt.compare(enteredPassword, this.password); //here i have removed await
+// };
 
 export const User = mongoose.model("User", userSchema);

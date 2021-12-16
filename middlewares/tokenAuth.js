@@ -1,23 +1,23 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/environmentVariables.js";
-export const verifyToken = (req, res, next) => {
-  let token =
-    req.body.token ||
-    req.query.token ||
-    req.headers["x-access-token"] ||
-    req.headers["authorization"];
+// import { JWT_SECRET } from "../config/environmentVariables.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-  // Remove Bearer from string
-  token = token.replace(/^Bearer\s+/, "");
-  console.log("token: ", token);
+import jsonResponse from '../utils/json-response.js';
+import responseCodes from '../helpers/response-codes.js';
+import {successMessages , errorMessages }  from '../utils/response-message.js';
+export const verifyToken = (req, res, next) => {
+  const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    return jsonResponse(res, responseCodes.Forbidden, errorMessages.accessTokenRequire, {} );
   }
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // res.locals.user = decoded;
   } catch (err) {
-    return res.status(401).send("Invalid Token");
+    return jsonResponse(res, responseCodes.Unauthorized, errorMessages.accesstokenInvalid, {} );
   }
   return next();
 };
+

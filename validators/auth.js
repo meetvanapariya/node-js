@@ -17,8 +17,8 @@ export const userRegisterValidators = [
     "password",
     "Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character. "
   )
-    .isLength({ min: 8 })
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/),
+    .isLength({ min: 4 }),
+    // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/),
   check("permanent_address", "Address is required").not().isEmpty(),
 ];
 
@@ -28,6 +28,6 @@ export const userLoginValidators = [
     "password",
     "Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character. "
   )
-    .isLength({ min: 8 })
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/),
+    .isLength({ min: 4 })
+    
 ];
