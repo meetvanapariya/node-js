@@ -18,6 +18,9 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 // api calls
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome to ems-backend!");
+});
 app.use("/api", authRoute);
 
 // error handling
